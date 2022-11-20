@@ -16,16 +16,20 @@ function changeComputerImg() {
   }
 }
  
- function winner (score) {
-   if (parseFloat(playerScore.textContent) >= 5) {
+ function winner () {
+   if (parseFloat(playerScore.textContent) >= 5 || parseFloat(computerScore.textContent) >= 5) {
+     if (parseFloat(playerScore.textContent) >= 5 && parseFloat(computerScore.textContent) >= 5 && playerScore.textContent == computerScore.textContent) {
+       alert('Draw');
+     } else if (parseFloat(playerScore.textContent) >= 5) {
      alert('You win!');
-     playerScore.textContent = 0;
-     computerScore.textContent = 0;
    } else if (parseFloat(computerScore.textContent) >= 5) {
-     alert('You lose!')
-     playerScore.textContent = 0;
-     computerScore.textContent = 0;
+     alert('You lose!');
    }
+   playerScore.textContent = 0;
+   computerScore.textContent = 0;
+   playerImg.src = '';
+   computerImg.src = '';
+ }
  }
  
 function increasePoints() {
