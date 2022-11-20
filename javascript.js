@@ -1,78 +1,100 @@
-function getComputerChoice() {
+function changeComputerImg() {
   let computerChoice = Math.floor(Math.random() * 3)
-  
   switch (computerChoice) {
     case 0:
-      return 'Rock'
+      computerImg.src = 'images/rock.png';
+      computerImg.dataset.key = 'rock';
+      break;
     case 1:
-      return 'Paper'
+      computerImg.src = 'images/paper.png';
+      computerImg.dataset.key = 'paper';
+      break;
     case 2:
-      return 'Scissors'
-  }
-}
-
-function playRound(playerSelection, computerSelection) {
-  return checkWinner(playerSelection, computerSelection);
-}
- 
-function game() {
-  let computerPoints = 0;
-  let playerPoints = 0;
-  for (let i = 0; i < 5; i++) {
-    let choice = prompt('Escolha').toLowerCase();
-    let winner = playRound(choice, getComputerChoice());
-    switch (winner) {
-      case 1:
-        playerPoints++;
-        break;
-      case 2:
-        computerPoints++;
-        break;
-      case 3:
-        computerPoints += 0.5;
-        playerPoints += 0.5;
-        break;
-    }
-  }
-  if (playerPoints > computerPoints) {
-    console.log('You win the game!');
-    console.log(`Result: ${playerPoints} x ${computerChoice}`);
-  } else if (playerPoints < computerPoints) {
-    console.log('You lose the game!');
-    console.log(`Result: ${playerPoints} x ${computerPoints}`);
-  } else {
-    console.log(`Draw`);
-    console.log(`Result: ${playerPoints} x ${computerPoints}`)
+      computerImg.src = 'images/scissors.png';
+      computerImg.dataset.key = 'scissors';
+      break;
   }
 }
  
-function checkWinner(playerSelection, computerSelection) {
-  console.log(`${playerSelection} ${computerSelection}`);
+ function winner (score) {
+   if (parseFloat(playerScore.textContent) >= 5) {
+     alert('You win!');
+     playerScore.textContent = 0;
+     computerScore.textContent = 0;
+   } else if (parseFloat(computerScore.textContent) >= 5) {
+     alert('You lose!')
+     playerScore.textContent = 0;
+     computerScore.textContent = 0;
+   }
+ }
+ 
+function increasePoints() {
+  const player = playerImg.dataset.key;
+  let playerCurrentScore = parseFloat(playerScore.textContent);
+  const computer = computerImg.dataset.key;
+  let computerCurrentScore = parseFloat(computerScore.textContent);
   switch (true) {
-    case playerSelection == computerSelection.toLowerCase():
-      console.log('Draw');
-      return 3
-    case playerSelection == 'rock' && computerSelection == 'Paper':
-      console.log('You lose! Paper beats Rock');
-      return 2
-    case playerSelection == 'paper' && computerSelection == 'Scissors':
-      console.log('You lose! Scissors beats Paper');
-      return 2
-    case playerSelection == 'scissors' && computerSelection == 'Rock':
-      console.log('You lose! Rock beats Scissors');
-      return 2
-    case playerSelection == 'rock' && computerSelection == 'Scissors':
-      console.log('You win! Rock beats Scissors');
-      return 1
-    case playerSelection == 'paper' && computerSelection == 'Rock':
-      console.log('You win! Paper beats Rock');
-      return 1
-    case playerSelection == 'scissors' && computerSelection == 'Paper':
-      console.log('You win! Scissors beats Paper');
-      return 1
-    default:
-    console.log('Invalid');
+    case player == computer:
+     // alert('Draw');
+      playerScore.textContent = playerCurrentScore + 0.5;
+      computerScore.textContent = computerCurrentScore + 0.5;
+      break;
+    case player == 'rock' && computer== 'paper':
+      //alert('You lose! Paper beats Rock');
+      computerScore.textContent = computerCurrentScore + 1;
+      break;
+    case player == 'paper' && computer == 'scissors':
+      //alert('You lose! Scissors beats Paper');
+      computerScore.textContent = computerCurrentScore + 1;
+       break;
+    case player == 'scissors' && computer == 'rock':
+      //alert('You lose! Rock beats Scissors');
+      computerScore.textContent = computerCurrentScore + 1;
+      break;
+    case player == 'rock' && computer == 'scissors':
+      //alert('You win! Rock beats Scissors');
+      playerScore.textContent = playerCurrentScore + 1;
+      break;
+    case player == 'paper' && computer == 'rock':
+      //alert('You win! Paper beats Rock');
+      playerScore.textContent = playerCurrentScore + 1;
+      break;
+    case player == 'scissors' && computer == 'paper':
+      //alert('You win! Scissors beats Paper');
+      playerScore.textContent = playerCurrentScore + 1;
+      break;
   }
 }
 
-game();
+let computerImg = document.querySelector('#computer-img');
+let userClick = document.querySelector('#container');
+let playerImg = document.querySelector('#player-img');
+
+const computerScore = document.querySelector('#computer-score span');
+const playerScore = document.querySelector('#player-score span');
+
+
+userClick.addEventListener('click', changer);
+
+function changer(e) {
+  const rock = 'rock';
+  const paper = 'paper';
+  const scissors = 'scissors';
+  switch (e.target.id) {
+    case rock:
+      playerImg.src = 'images/rock.png';
+      playerImg.dataset.key = 'rock';
+      break;
+    case paper:
+      playerImg.src = 'images/paper.png';
+      playerImg.dataset.key = 'paper';
+      break;
+    case scissors:
+      playerImg.src = 'images/scissors.png';
+      playerImg.dataset.key = 'scissors';
+      break;
+  }
+  changeComputerImg();
+  increasePoints();
+ setTimeout(winner, 100);
+}
